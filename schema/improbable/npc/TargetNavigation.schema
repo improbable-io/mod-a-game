@@ -1,0 +1,11 @@
+package improbable.npc;
+
+type ReachedTarget {}
+
+component TargetNavigation {
+  id = 1800;
+  bool has_target = 1;
+  option<Coordinates> target_position = 2;
+  option<EntityId> target_entity_id = 3;
+  event ReachedTarget reached_target;
+}

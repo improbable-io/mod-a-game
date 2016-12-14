@@ -1,0 +1,13 @@
+package improbable.tree;
+
+enum TreeFSMState {
+  HEALTHY = 0;
+  STUMP = 1;
+  BURNING = 2;
+  BURNT = 3;
+}
+
+component TreeState {
+  id = 1600;
+  TreeFSMState current_state = 1;
+}

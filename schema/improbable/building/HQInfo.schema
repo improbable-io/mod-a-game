@@ -1,0 +1,22 @@
+package improbable.building;
+
+import "improbable/core/Nothing.schema";
+
+type HQInfoData {
+  list<EntityId> barracks = 1;
+}
+
+type RegisterBarracksRequest {
+  EntityId entity_id = 1;
+}
+
+type UnregisterBarracksRequest {
+  EntityId entity_id = 1;
+}
+
+component HQInfo {
+  id = 1700;
+  data HQInfoData;
+  command RegisterBarracksRequest register_barracks returns improbable.core.Nothing;
+  command UnregisterBarracksRequest unregister_barracks returns improbable.core.Nothing;
+}

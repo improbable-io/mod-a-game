@@ -1,0 +1,19 @@
+package improbable.global;
+
+import "improbable/core/Nothing.schema";
+
+type SpawnPlayerRequest {
+}
+
+type SpawnPlayerResponse {
+  EntityId player_entity_id = 1;
+}
+
+type DeletePlayerRequest {
+}
+
+component PlayerLifeCycle {
+  id = 1100;
+  command SpawnPlayerRequest spawn_player returns SpawnPlayerResponse;
+  command DeletePlayerRequest delete_player returns improbable.core.Nothing;
+}

@@ -1,0 +1,59 @@
+using Assets.Gamelogic.UI;
+using Improbable.Life;
+using Improbable.Unity;
+using Improbable.Unity.Visualizer;
+using UnityEngine;
+
+namespace Assets.Gamelogic.Life
+{
+    [EngineType(EnginePlatform.Client)]
+    public class HealthClientVisualizer : MonoBehaviour
+    {
+        [Require] private Health.Reader health;
+        public int CurrentHealth { get { return health.Data.currentHealth; } }
+        public int MaxHealth { get { return health.Data.maxHealth; } }
+        private GameObject entityInfoCanvasInstance;
+        private EntityHealthPanelController entityHealthPanelController;
+
+        private void Awake()
+        {
+            entityInfoCanvasInstance = (GameObject) Instantiate(ResourceRegistry.EntityInfoCanvasPrefab, transform);
+            Collider modelCollider = GetComponent<Collider>();
+            if (modelCollider == null)
+            {
+                modelCollider = GetComponentInChildren<Collider>();
+            }
+            entityInfoCanvasInstance.transform.localPosition = (modelCollider != null) ? Vector3.up * (modelCollider.bounds.size.y + 1.5f) : Vector3.up * 3f;
+            entityHealthPanelController = entityInfoCanvasInstance.GetComponent<EntityHealthPanelController>();
+        }
+
+        private void OnEnable()
+        {
+            UpdateEntityHealthPanel();
+            health.ComponentUpdated += OnComponentUpdated;
+        }
+
+        private void OnDisable()
+        {
+            health.ComponentUpdated -= OnComponentUpdated;
+        }
+
+        private void OnComponentUpdated(Health.Update update)
+        {
+            UpdateEntityHealthPanel();
+        }
+
+        private void UpdateEntityHealthPanel()
+        {
+            if (CurrentHealth == MaxHealth)
+            {
+                entityHealthPanelController.Hide();
+            }
+            else
+            {
+                entityHealthPanelController.Show();
+                entityHealthPanelController.SetHealth(((float)CurrentHealth) / MaxHealth);
+            }
+        }
+    }
+}

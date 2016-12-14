@@ -1,0 +1,21 @@
+package improbable.npc;
+
+import "improbable/npc/NPCRole.schema";
+
+type WizardFSMState {
+  enum StateEnum {
+    IDLE = 0;
+    MOVING_TO_TARGET = 1;
+    ATTACKING_TARGET = 2;
+    DEFENDING_TARGET = 3;
+    ON_FIRE = 4;
+    MOVING_TO_POSITION = 5;
+  }
+}
+
+component NPCWizard {
+  id = 1802;
+  WizardFSMState.StateEnum current_state = 1;
+  EntityId target_entity = 2;
+  NPCRole npc_role = 3;
+}

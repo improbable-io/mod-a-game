@@ -1,0 +1,10 @@
+package improbable.global;
+
+type Team {
+  list<EntityId> team_members = 1;
+}
+
+component TeamCollection {
+  id = 1101;
+  list<Team> teams = 1;
+}

@@ -1,0 +1,15 @@
+package improbable.tree;
+
+type YieldHarvestRequest {
+  EntityId harvester = 1;
+}
+
+type HarvestResponse {
+  int32 resources_taken = 1;
+}
+
+component Harvestable {
+  id = 1601;
+  int32 resources = 1;
+  command YieldHarvestRequest yield_harvest returns HarvestResponse;
+}

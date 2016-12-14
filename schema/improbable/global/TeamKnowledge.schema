@@ -1,0 +1,6 @@
+package improbable.global;
+
+component TeamKnowledge {
+  id = 1102;
+  list<Coordinates> team_hq_locations = 1;
+}

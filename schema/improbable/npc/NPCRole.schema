@@ -1,0 +1,10 @@
+package improbable.npc;
+
+enum NPCRoleEnum {
+  LUMBERJACK = 0;
+  WIZARD = 1;
+}
+
+type NPCRole {
+  NPCRoleEnum npc_role_enum = 1;
+}

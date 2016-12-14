@@ -1,0 +1,58 @@
+using Improbable.Building;
+using Improbable.Unity;
+using Improbable.Unity.Visualizer;
+using UnityEngine;
+
+namespace Assets.Gamelogic.Building
+{
+    [EngineType(EnginePlatform.Client)]
+    public class BarracksInfoVisualizer : MonoBehaviour
+    {
+        [Require] BarracksInfo.Reader barracksInfo;
+
+        public BarracksState BarracksState { get { return barracksInfo.Data.barracksState; } }
+
+        [SerializeField] private ParticleSystem transition;
+        [SerializeField] private GameObject buildingModel;
+        [SerializeField] private GameObject stockpileModel;
+
+        private void OnEnable()
+        {
+            SwitchToBarracksState(barracksInfo.Data.barracksState);
+            barracksInfo.ComponentUpdated += OnComponentUpdated;
+        }
+
+        private void OnDisable()
+        {
+            barracksInfo.ComponentUpdated -= OnComponentUpdated;
+        }
+
+        private void OnComponentUpdated(BarracksInfo.Update update)
+        {
+            if (update.barracksState.HasValue)
+            {
+                transition.Play();
+                SwitchToBarracksState(update.barracksState.Value);
+            }
+        }
+
+        private void SwitchToBarracksState(BarracksState barracksState)
+        {
+            switch (barracksState)
+            {
+                case BarracksState.UNDER_CONSTRUCTION:
+                    {
+                        buildingModel.SetActive(false);
+                        stockpileModel.SetActive(true);
+                    }
+                    break;
+                case BarracksState.CONSTRUCTION_FINISHED:
+                    {
+                        buildingModel.SetActive(true);
+                        stockpileModel.SetActive(false);
+                    }
+                    break;
+            }
+        }
+    }
+}
